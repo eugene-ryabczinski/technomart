@@ -103,15 +103,18 @@ var sliderControls = document.querySelectorAll(".slider-controls__arrow");
 var sliderToggles = document.querySelectorAll(".slider-toggles__button");
 var sliderCurrentIndex = 0;
 
+/*
 console.log(slides.length);
 console.log(sliderCurrentIndex);
+*/
 
-var changeSlideByControl = function (control, index) {
+var changeSlide = function (slideSwitcher, index) {
 // 	console.log(control);
-	if (control.classList.contains("slider-toggles__button")) {
+	if (slideSwitcher.classList.contains("slider-toggles__button")) {
+		sliderCurrentIndex = index;
 		console.log(index);
 		for (var j=0; j < slides.length; j++) {
-			if (j == index) {
+			if (j == sliderCurrentIndex) {
 				slides[j].classList.add("promo-slider__item--show");
 				sliderToggles[j].classList.add("slider-toggles__button--active");
 			} else {
@@ -119,8 +122,8 @@ var changeSlideByControl = function (control, index) {
 				sliderToggles[j].classList.remove("slider-toggles__button--active");		
 			}	
 		}			
-	} else {
-		if (control.classList.contains("slider-controls__arrow--next")) {
+	} else if (slideSwitcher.classList.contains("slider-controls__arrow")) {
+		if (slideSwitcher.classList.contains("slider-controls__arrow--next")) {
 			if (sliderCurrentIndex < slides.length-1 ) {
 				sliderCurrentIndex++;
 				console.log(sliderCurrentIndex);
@@ -137,7 +140,6 @@ var changeSlideByControl = function (control, index) {
 				console.log(sliderCurrentIndex);
 			}		
 		}
-/*
 		for (var j=0; j < slides.length; j++) {
 			if (j == sliderCurrentIndex) {
 				slides[j].classList.add("promo-slider__item--show");
@@ -147,15 +149,13 @@ var changeSlideByControl = function (control, index) {
 				sliderToggles[j].classList.remove("slider-toggles__button--active");		
 			}	
 		}			
-*/
 	} 
 }
 
-var moveIndex = function (control, index) {
-	control.addEventListener("click", function(evt) {
+var moveIndex = function (slideSwitcher, index) {
+	slideSwitcher.addEventListener("click", function(evt) {
 		evt.preventDefault();
-// 		sliderCurrentIndex = index;
-		changeSlideByControl(control, index);
+		changeSlide(slideSwitcher, index);
 	});	
 }
 
