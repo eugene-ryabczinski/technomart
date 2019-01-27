@@ -99,8 +99,13 @@ overlay.addEventListener("click", function(evt) {
 
 // Блок слайдера
 var slides = document.querySelectorAll(".promo-slider__item")
-var sliderControls = document.querySelectorAll(".slider-controls__arrow");
+
+var sliderControls = document.querySelectorAll(".slider-controls__arrow"); // в коде не используется
+var sliderControlNext = document.querySelector(".slider-controls__arrow--next");
+var sliderControlPrevious = document.querySelector(".slider-controls__arrow--previous");
+
 var sliderToggles = document.querySelectorAll(".slider-toggles__button");
+
 var sliderCurrentIndex = 0;
 
 /*
@@ -108,9 +113,7 @@ console.log(slides.length);
 console.log(sliderCurrentIndex);
 */
 
-var changeSlide = function (slideSwitcher, index) {
-// 	console.log(control);
-	if (slideSwitcher.classList.contains("slider-toggles__button")) {
+var changeSlide = function (index) {
 		sliderCurrentIndex = index;
 		console.log(index);
 		for (var j=0; j < slides.length; j++) {
@@ -122,50 +125,38 @@ var changeSlide = function (slideSwitcher, index) {
 				sliderToggles[j].classList.remove("slider-toggles__button--active");		
 			}	
 		}			
-	} else if (slideSwitcher.classList.contains("slider-controls__arrow")) {
-		if (slideSwitcher.classList.contains("slider-controls__arrow--next")) {
-			if (sliderCurrentIndex < slides.length-1 ) {
-				sliderCurrentIndex++;
-				console.log(sliderCurrentIndex);
-			} else {
-				sliderCurrentIndex=0;
-				console.log(sliderCurrentIndex);
-			}
-		} else {
-			if (sliderCurrentIndex > 0) {
-				sliderCurrentIndex--;
-				console.log(sliderCurrentIndex);
-			} else {
-				sliderCurrentIndex=slides.length-1;
-				console.log(sliderCurrentIndex);
-			}		
-		}
-		for (var j=0; j < slides.length; j++) {
-			if (j == sliderCurrentIndex) {
-				slides[j].classList.add("promo-slider__item--show");
-				sliderToggles[j].classList.add("slider-toggles__button--active");
-			} else {
-				slides[j].classList.remove("promo-slider__item--show");
-				sliderToggles[j].classList.remove("slider-toggles__button--active");		
-			}	
-		}			
-	} 
 }
 
 var moveIndex = function (slideSwitcher, index) {
 	slideSwitcher.addEventListener("click", function(evt) {
 		evt.preventDefault();
-		changeSlide(slideSwitcher, index);
+		changeSlide(index, slideSwitcher);
 	});	
-}
-
-for (var i=0; i < sliderControls.length; i++) { 
-	moveIndex(sliderControls[i]);	
 }
 
 for (var i=0; i < sliderToggles.length; i++) { 
 	moveIndex(sliderToggles[i], i);	
 }
+
+sliderControlNext.addEventListener("click", function(evt) {
+	evt.preventDefault();
+	if (sliderCurrentIndex < slides.length-1 ) {
+		sliderCurrentIndex++;
+	} else {
+		sliderCurrentIndex=0;
+	}
+	changeSlide(sliderCurrentIndex);	
+});
+
+sliderControlPrevious.addEventListener("click", function(evt) {
+	evt.preventDefault();
+	if (sliderCurrentIndex > 0) {
+		sliderCurrentIndex--;
+	} else {
+		sliderCurrentIndex=slides.length-1;
+	}
+	changeSlide(sliderCurrentIndex);
+});	
 
 // Блок сервисы
 var servicesTabs = document.querySelectorAll(".services-tab__button");
