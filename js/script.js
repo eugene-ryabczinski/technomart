@@ -1,19 +1,15 @@
 var overlay = document.querySelector(".overlay");
 var modal = document.querySelectorAll(".modal");
-
 var closeButton = document.querySelectorAll(".modal__close");
-
 
 // Блок с картой
 var mapLink = document.querySelector(".contacts__map-link");
 var mapModal = document.querySelector(".modal-map");
 
-
 mapLink.addEventListener("click", function(evt) { 
 	evt.preventDefault();
 	mapModal.classList.add("modal--show");
 	overlay.classList.add("overlay--show");
-
 });
 
 // Блок feedback
@@ -108,11 +104,6 @@ var sliderToggles = document.querySelectorAll(".slider-toggles__button");
 
 var sliderCurrentIndex = 0;
 
-/*
-console.log(slides.length);
-console.log(sliderCurrentIndex);
-*/
-
 var changeSlide = function (index) {
 		sliderCurrentIndex = index;
 		console.log(index);
@@ -194,3 +185,34 @@ var moveTabIndex = function (index, tab) {
 for (var i=0; i < servicesTabs.length; i++) { 
 	moveTabIndex(i, servicesTabs[i]);	
 }
+
+// Блок купить 
+var purchaseModal = document.querySelector(".purchase");
+var buttonBuy = document.querySelectorAll(".products__buy-button");
+var buttonContinueShopping = document.querySelectorAll(".purchase__button--continue-shopping");
+var buttonCheckout = document.querySelector(".purchase__button--checkout");
+
+var openPurchaseModal = function (buttonOpen) {
+	buttonOpen.addEventListener("click", function(evt) {
+		evt.preventDefault();
+		purchaseModal.classList.add("modal--show");
+		overlay.classList.add("overlay--show");
+	});
+}
+
+for (var i=0; i < buttonBuy.length; i++) {
+	openPurchaseModal(buttonBuy[i]);
+}
+
+// Вариант работы с nodelist без использования замыкания. Преобразуем коллекцию в массив, перебираем, вашем обработчик. Компактно!
+var buttonContinueShoppingArray = Array.prototype.slice.call(document.querySelectorAll(".purchase__button--continue-shopping"));
+
+buttonContinueShoppingArray.forEach(function(button, n) {
+	button.addEventListener("click", function(evt) {
+		purchaseModal.classList.remove("modal--show");
+		overlay.classList.remove("overlay--show");
+	});
+});
+
+
+
